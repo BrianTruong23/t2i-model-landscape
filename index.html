@@ -36,13 +36,9 @@
     <!-- Chosen Palette: Warm Neutrals (Background: #fdfaf6) with Data Viz Colors (Amber, Teal, Indigo, Rose) -->
     <!-- Application Structure Plan: 
          1. Hero: Context setting.
-         2. Interactive Benchmark Database: Grid of cards. Click triggers a modal with deep-dive content and links.
+         2. Interactive Benchmark Database: Grid of cards. Updated with TIFF, FineGrain, and T2I-CompBench++.
          3. Analytics Dashboard: Visualizing shift in evaluation methods.
-         4. Future Trends: Detailed "Now vs Next" comparison. The "Next" section is significantly expanded with specific research directions (Physics, Culture, Diagrams, etc.)
-    -->
-    <!-- Visualization & Content Choices:
-         - Using a two-column layout for the "Future" section to contrast current limitations with future requirements.
-         - Detailed text blocks in the "Next" column to handle the dense information required by the prompt.
+         4. Future Trends: "Now vs Next" comparison with detailed strategic pillars.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
@@ -415,6 +411,26 @@
                 desc: "Evaluating subject consistency across multiple prompts for storytelling.",
                 detailedDesc: "Focused on narrative generation, this benchmark evaluates 'Identity Consistency'. Can the model generate the exact same character in 10 different poses and settings without morphing their facial features or clothing style? Critical for storyboard and comic creation.",
                 link: "https://arxiv.org/abs/2407.08683" 
+            },
+
+            // New Additions (Requests)
+            { 
+                id: 21, year: 2025, name: "TIFF Bench", target: "Fidelity", type: "Auto", axes: "Atomic Faithfulness, VQA", 
+                desc: "Text-Image Fidelity and Faithfulness: Decomposing prompts into atomic claims for verification.",
+                detailedDesc: "TIFF Bench (Text-Image Fidelity and Faithfulness) tackles the problem of 'hallucinated' or missing content by decomposing complex text prompts into atomic assertions (e.g., 'There is a cat', 'The cat is black', 'The cat is on a mat'). It then uses specialized VQA or verification models to check each claim against the image, providing a highly granular faithfulness score that correlates better with human judgment than global similarity metrics.",
+                link: "https://arxiv.org/abs/2506.02161" 
+            },
+            { 
+                id: 22, year: 2025, name: "FineGrain", target: "Fine-Grained Details", type: "Auto", axes: "Texture, Attributes, Parts", 
+                desc: "Diagnosing subtle errors in texture, object parts, and attribute leakage.",
+                detailedDesc: "FineGrain is a diagnostic benchmark designed to catch the subtle errors that standard metrics miss. Instead of just a pass/fail, it categorizes errors into specific classes such as texture anomalies, missing object sub-parts (e.g., a clock missing hands), and attribute leakage (where the color of one object bleeds into another). It serves as a microscope for model performance.",
+                link: "https://finegrainbench.ai/" 
+            },
+            { 
+                id: 23, year: 2024, name: "T2I-CompBench++", target: "Compositionality", type: "Auto (Multimodal)", axes: "3D Spatial, Complex Binding", 
+                desc: "An enhanced version of T2I-CompBench adding 3D relations and complex attribute binding.",
+                detailedDesc: "Building on the foundational T2I-CompBench, the '++' iteration significantly raises the difficulty ceiling. It introduces evaluation categories for 3D spatial relationships (e.g., 'behind' vs 'occluded by'), intricate texture binding (ensuring the 'plaid' pattern is on the shirt, not the pants), and multi-object interactions. It is designed to stress-test the latest generation of models that have arguably solved simpler compositional tasks.",
+                link: "https://arxiv.org/abs/2307.06350" // Linking to original paper/project page as ++ is often an extension
             }
         ];
 
@@ -575,7 +591,7 @@
                         },
                         {
                             label: 'Automated/Hybrid',
-                            data: [1, 6, 5, 2], 
+                            data: [1, 6, 5, 5], // Updated for new 2025/2024 entries
                             backgroundColor: '#0d9488',
                         }
                     ]
@@ -596,7 +612,7 @@
             benchmarks.forEach(b => {
                 const t = b.target.toLowerCase();
                 if (t.includes('comp') || t.includes('spatial') || t.includes('relation') || t.includes('logic')) focusMap['Composition']++;
-                else if (t.includes('fidelity') || t.includes('preference') || t.includes('align') || t.includes('holistic')) focusMap['Realism/Fidelity']++;
+                else if (t.includes('fidelity') || t.includes('preference') || t.includes('align') || t.includes('holistic') || t.includes('faithfulness')) focusMap['Realism/Fidelity']++;
                 else if (t.includes('safety') || t.includes('culture')) focusMap['Safety/Bias']++;
                 else if (t.includes('design') || t.includes('challenge')) focusMap['Text/Design']++;
                 else focusMap['Other']++;
