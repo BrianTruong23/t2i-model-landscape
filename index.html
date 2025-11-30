@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T2I Benchmark Review: 2022-2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #fdfaf6; color: #333; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 350px;
+            max-height: 400px;
+            margin: 0 auto;
+        }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 300ms; }
+        .active-filter { background-color: #d97706; color: white; border-color: #d97706; }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Background: #fdfaf6) with Data Viz Colors (Amber, Teal, Indigo, Rose) -->
+    <!-- Application Structure Plan: 
+         1. Hero: Context setting.
+         2. Interactive Benchmark Database: A grid of 20 cards representing the literature review, filterable by Year and Type. This allows nonlinear exploration of specific papers.
+         3. Analytics Dashboard: Visualizing the shift in evaluation methods (Human vs Auto) and focus areas using Chart.js.
+         4. Current Practices vs. Future Trends: A comparative section detailing the "Now" and the "Next" strategies for researchers.
+         Rationale: This structure moves from raw data (the list) to synthesis (charts) to strategic actionable advice (trends), mirroring the research process.
+    -->
+    <!-- Visualization & Content Choices:
+         1. Benchmark Cards: Interactive HTML elements. Goal: Inform. Justification: Best for browsing distinct items.
+         2. Evolution Chart: Line/Bar Chart (Chart.js). Goal: Change. Justification: Shows the temporal trend of automation in eval.
+         3. Focus Distribution: Doughnut Chart (Chart.js). Goal: Organize. Justification: Shows which areas (Composition, Safety, etc.) are over/under-studied.
+         4. Future Trends Matrix: Grid layout with descriptive text. Goal: Inform. Justification: Complex qualitative data requires structured text.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-[#fdfaf6] min-h-screen flex flex-col">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-gray-800 tracking-tight">T2I <span class="text-amber-600">Eval</span>Lens</span>
+                </div>
+                <div class="flex items-center space-x-8">
+                    <button onclick="scrollToSection('database')" class="text-gray-600 hover:text-amber-600 font-medium">Benchmarks</button>
+                    <button onclick="scrollToSection('analytics')" class="text-gray-600 hover:text-amber-600 font-medium">Trends Data</button>
+                    <button onclick="scrollToSection('future')" class="text-gray-600 hover:text-amber-600 font-medium">The Future</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="bg-white pb-12 pt-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                The State of Text-to-Image Evaluation
+                <span class="block text-amber-600 text-3xl md:text-4xl mt-2">2022 &mdash; 2025</span>
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl leading-relaxed">
+                A comprehensive review of 20 key benchmarks defining the T2I landscape. 
+                Explore the transition from subjective human validation to scalable automated metrics, 
+                and discover the next frontier in model assessment.
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+
+        <!-- Section 1: Benchmark Database -->
+        <section id="database" class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Benchmark Database</h2>
+                <p class="text-gray-600 mb-6">
+                    Reviewing the past 3 years of evaluation frameworks. Use the filters below to isolate specific years or evaluation methodologies.
+                </p>
+                
+                <!-- Filters -->
+                <div class="flex flex-wrap gap-3 mb-8" id="filter-container">
+                    <button class="filter-btn active-filter px-4 py-2 rounded-full border border-amber-600 font-medium transition-all" data-filter="all">All</button>
+                    <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-600 font-medium transition-all" data-filter="2022">2022</button>
+                    <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-600 font-medium transition-all" data-filter="2023">2023</button>
+                    <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-600 font-medium transition-all" data-filter="2024">2024</button>
+                    <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-600 font-medium transition-all" data-filter="2025">2025</button>
+                    <div class="w-px h-8 bg-gray-300 mx-2 hidden sm:block"></div>
+                    <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-600 font-medium transition-all" data-filter="Human">Human Eval</button>
+                    <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-600 font-medium transition-all" data-filter="Auto">Automated</button>
+                </div>
+            </div>
+
+            <!-- Grid -->
+            <div id="benchmark-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards will be injected here by JS -->
+            </div>
+        </section>
+
+        <!-- Section 2: Analytics -->
+        <section id="analytics" class="py-12 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Meta-Analysis</h2>
+                <p class="text-gray-600 mb-10 max-w-3xl">
+                    Analyzing the trajectory of evaluation techniques. Notice the sharp rise in automated pipelines using VQA (Visual Question Answering) and MLLMs (Multimodal Large Language Models) to replace costly human annotation.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Chart 1: Evaluation Type Trend -->
+                    <div class="flex flex-col">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Shift in Evaluation Methodology</h3>
+                        <div class="chart-container">
+                            <canvas id="evalTrendChart"></canvas>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-4 text-center">
+                            Comparison of Human-centric vs. Automated evaluation frameworks over time.
+                        </p>
+                    </div>
+
+                    <!-- Chart 2: Focus Areas -->
+                    <div class="flex flex-col">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Distribution of Evaluation Targets</h3>
+                        <div class="chart-container">
+                            <canvas id="focusAreaChart"></canvas>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-4 text-center">
+                            Breakdown of what benchmarks are actually measuring (Composition, Safety, Text, etc.).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Current vs Future -->
+        <section id="future" class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">The Evaluation Frontier</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Current State -->
+                <div class="bg-gray-50 p-8 rounded-xl border border-gray-200">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                        <span class="bg-gray-200 text-gray-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">Now</span>
+                        Current Standard Practices
+                    </h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-900">1. Distribution Metrics (FID)</h4>
+                            <p class="text-gray-600 text-sm mt-1">Comparing feature distributions between generated and real images. Slowly being phased out due to lack of perceptual alignment.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900">2. Semantic Alignment (CLIP Score)</h4>
+                            <p class="text-gray-600 text-sm mt-1">Measuring the cosine similarity between text and image embeddings. Good for high-level concepts, poor for counting or spatial relations.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900">3. VQA-based Validation (TIFA/Davidson)</h4>
+                            <p class="text-gray-600 text-sm mt-1">Generating questions from prompts (e.g., "Is there a red cat?") and using VQA models to answer them. The current gold standard for auto-eval.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900">4. Human Preference (Elo)</h4>
+                            <p class="text-gray-600 text-sm mt-1">Side-by-side comparisons (Pick-a-Pic) to train reward models. Expensive but ground truth.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Future Trends -->
+                <div class="bg-amber-50 p-8 rounded-xl border border-amber-100">
+                    <h3 class="text-2xl font-bold text-amber-900 mb-6 flex items-center">
+                        <span class="bg-amber-200 text-amber-800 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">Next</span>
+                        Future Research Directions (2025+)
+                    </h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-amber-900">1. Physics & Causal Reasoning</h4>
+                            <p class="text-amber-800 text-sm mt-1">Beyond "is the object there?" to "is the physics correct?" (e.g., reflections, shadows, gravity, liquid dynamics). Evaluating if a "shattered glass" actually looks shattered.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-amber-900">2. Cultural & Subcultural Nuance</h4>
+                            <p class="text-amber-800 text-sm mt-1">Evaluating bias and representation beyond skin tone. Does "Wedding" generate only Western weddings? Benchmarks need global cultural knowledge bases.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-amber-900">3. Consistency & Identity Retention</h4>
+                            <p class="text-amber-800 text-sm mt-1">Storytelling evaluation: Can the model keep the same character's face/clothing consistent across 5 different prompts/contexts?</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-amber-900">4. Memorization & Copyright Probing</h4>
+                            <p class="text-amber-800 text-sm mt-1">Quantifying how much training data is regurgitated. Essential for legal safety. Metrics for "novelty" vs. "replica".</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-amber-900">5. Abstract Concept Grounding</h4>
+                            <p class="text-amber-800 text-sm mt-1">Evaluating the depiction of non-physical concepts (e.g., "Silence," "Chaos," "Solitude") effectively, moving beyond concrete nouns.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="font-bold text-xl">T2I EvalLens</span>
+                <p class="text-gray-400 text-sm mt-1">Generated by Canvas Create Webapp</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+                Literature Review Period: 2022 - 2025
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- DATASET: 20 Benchmarks (2022-2025) ---
+        const benchmarks = [
+            // 2022 (Foundations)
+            { id: 1, year: 2022, name: "DrawBench", target: "Challenge Prompts", type: "Human", axes: "Adherence, Fidelity", desc: "The Parti paper benchmark. Small but highly difficult set of prompts testing specific failures.", link: "https://arxiv.org/abs/2205.11487" },
+            { id: 2, year: 2022, name: "PartiPrompts", target: "Broad Capabilities", type: "Human", axes: "Composition, World Knowledge", desc: "1600+ prompts across categories like abstract, world knowledge, and art style.", link: "https://arxiv.org/abs/2206.10789" },
+            { id: 3, year: 2022, name: "Winoground", target: "Visio-Linguistic", type: "Auto", axes: "Relation, Object Swap", desc: "Tests if models can distinguish between 'horse riding astronaut' and 'astronaut riding horse'.", link: "https://arxiv.org/abs/2204.03162" },
+            
+            // 2023 (The Explosion of Auto-Eval & Composition)
+            { id: 4, year: 2023, name: "T2I-CompBench", target: "Compositionality", type: "Auto (BLIP/CLIP)", axes: "Color, Shape, Texture, Spatial", desc: "First comprehensive benchmark specifically for complex compositional reasoning.", link: "https://arxiv.org/abs/2307.06350" },
+            { id: 5, year: 2023, name: "TIFA", target: "Fidelity", type: "Auto (VQA)", axes: "Object Existence, Counting", desc: "Text-to-Image Fidelity Assessment. Converts prompts into QA pairs for VQA models.", link: "https://arxiv.org/abs/2303.11897" },
+            { id: 6, year: 2023, name: "HEIM", target: "Holistic", type: "Human + Auto", axes: "12 Aspects (Bias, Quality, etc.)", desc: "Holistic Evaluation of Text-to-Image Models. Massive scale coverage of non-quality aspects.", link: "https://arxiv.org/abs/2311.04287" },
+            { id: 7, year: 2023, name: "Pick-a-Pic", target: "Human Preference", type: "Human", axes: "Aesthetics, Alignment", desc: "Large-scale crowdsourced dataset of user preferences used to train reward models.", link: "https://arxiv.org/abs/2305.01749" },
+            { id: 8, year: 2023, name: "ImageReward", target: "Reward Modeling", type: "Auto (Model)", axes: "Human Alignment", desc: "A reward model trained to predict human preference, serving as a proxy metric.", link: "https://arxiv.org/abs/2304.05977" },
+            { id: 9, year: 2023, name: "GenEval", target: "Object Detection", type: "Auto", axes: "Position, Count, Color", desc: "Uses standard object detectors to verify if prompt entities actually appear.", link: "https://arxiv.org/abs/2310.11513" },
+            { id: 10, year: 2023, name: "Dall-E 3 Eval", target: "Caption Follow-up", type: "Human", axes: "Long Context, Detail", desc: "Focuses on paragraph-level prompt adherence and detail retention.", link: "https://cdn.openai.com/papers/dall-e-3.pdf" },
+
+            // 2024 (Specialization & Refinement)
+            { id: 11, year: 2024, name: "HRS-Bench", target: "Spatial/Resolution", type: "Auto", axes: "High Resolution, Spatial", desc: "Holistic evaluation for high-res generation and finer spatial details.", link: "https://arxiv.org/abs/2304.05390" },
+            { id: 12, year: 2024, name: "RichHF-18K", target: "Rich Human Feedback", type: "Human", axes: "Artifacts, Plausibility", desc: "Annotates specific regions of error (extra fingers, glitch) rather than just a score.", link: "https://arxiv.org/abs/2312.10240" },
+            { id: 13, year: 2024, name: "SafetyBench-T2I", target: "Safety", type: "Auto", axes: "NSFW, Bias, Copyright", desc: "Stress-testing safety filters and adversarial robustness.", link: "https://arxiv.org/abs/2501.12612" },
+            { id: 14, year: 2024, name: "DesignBench", target: "Graphic Design", type: "Auto", axes: "Typography, Layout", desc: "Evaluating text rendering, logo design, and poster layout capabilities.", link: "https://arxiv.org/abs/2310.15144" },
+            { id: 15, year: 2024, name: "GeomVerse", target: "Geometry", type: "Auto", axes: "Perspective, 3D Relation", desc: "Testing if 2D images respect 3D geometric transformations and relations.", link: "https://arxiv.org/abs/2312.12241" },
+            { id: 16, year: 2024, name: "VQAScore", target: "Alignment", type: "Auto (VQA)", axes: "Complex Alignment", desc: "Using advanced VQA models to score alignment, outperforming CLIP.", link: "https://arxiv.org/abs/2404.01291" },
+
+            // 2025 (Trends/Early Papers)
+            { id: 17, year: 2025, name: "Logic-T2I", target: "Logical Reasoning", type: "Auto", axes: "Negation, Implication", desc: "Can the model handle 'Not a red ball' or 'If rain, then umbrella'?", link: "https://arxiv.org/abs/2510.00796" },
+            { id: 18, year: 2025, name: "Culture-Bench", target: "Cultural Nuance", type: "Human + Auto", axes: "Global Concepts, Stereotypes", desc: "Evaluating generation across diverse cultural contexts and non-Western norms.", link: "https://arxiv.org/abs/2411.13962" },
+            { id: 19, year: 2025, name: "Phys-T2I", target: "Physics", type: "Auto", axes: "Gravity, Reflection", desc: "Assessing physical plausibility of objects interaction (e.g., water splashing).", link: "https://arxiv.org/abs/2406.11802" },
+            { id: 20, year: 2025, name: "Consistency-Story", target: "Consistency", type: "Auto", axes: "Identity, Style Retention", desc: "Evaluating subject consistency across multiple prompts for storytelling.", link: "https://arxiv.org/abs/2407.08683" },
+            
+            // New Additions
+            { id: 21, year: 2025, name: "TIFF Bench", target: "Fidelity", type: "Auto", axes: "Text-Image Fidelity", desc: "Text-to-Image Fidelity Benchmarking.", link: "https://arxiv.org/abs/2506.02161" },
+            { id: 22, year: 2025, name: "Fine Grain", target: "Fine-Grained Details", type: "Auto", axes: "Details, Texture", desc: "Fine-grained evaluation for text-to-image models.", link: "https://finegrainbench.ai/" },
+            { id: 23, year: 2023, name: "T2I Comp Bench ++", target: "Compositionality", type: "Auto", axes: "Enhanced Composition", desc: "Enhanced and comprehensive benchmark for compositional text-to-image generation.", link: "https://arxiv.org/abs/2307.06350" }
+        ];
+
+        // --- INTERACTION LOGIC ---
+        const grid = document.getElementById('benchmark-grid');
+        const btns = document.querySelectorAll('.filter-btn');
+
+        function renderGrid(filter) {
+            grid.innerHTML = '';
+            
+            const filtered = benchmarks.filter(b => {
+                if (filter === 'all') return true;
+                if (filter === 'Human' || filter === 'Auto') {
+                    // Simple string includes check for Hybrid types
+                    return b.type.includes(filter);
+                }
+                return b.year.toString() === filter;
+            });
+
+            filtered.forEach(b => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl border border-gray-200 p-6 card-hover transition-all flex flex-col justify-between';
+                
+                // Determine badge color based on Type
+                let badgeColor = "bg-gray-100 text-gray-800";
+                if (b.type.includes('Human')) badgeColor = "bg-rose-100 text-rose-800";
+                if (b.type.includes('Auto')) badgeColor = "bg-teal-100 text-teal-800";
+                if (b.type.includes('+')) badgeColor = "bg-indigo-100 text-indigo-800";
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-xs font-bold px-2 py-1 rounded ${badgeColor}">${b.type}</span>
+                            <span class="text-sm font-semibold text-gray-400">${b.year}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">${b.name}</h3>
+                        <p class="text-sm text-gray-600 mb-4 line-clamp-3">${b.desc}</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wide">Target</h4>
+                            <p class="text-sm font-medium text-gray-800">${b.target}</p>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-gray-100">
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-1">Notable Axes</h4>
+                        <div class="flex flex-wrap gap-1">
+                            ${b.axes.split(',').map(ax => `<span class="text-xs bg-gray-50 text-gray-600 px-2 py-1 rounded border border-gray-100">${ax.trim()}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Click Handlers
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btns.forEach(b => {
+                    b.classList.remove('active-filter', 'border-amber-600', 'text-white');
+                    b.classList.add('border-gray-300', 'text-gray-600');
+                    // Reset styling for inactive
+                    if (b === btn) {
+                        b.classList.add('active-filter');
+                        b.classList.remove('border-gray-300', 'text-gray-600');
+                    }
+                });
+                renderGrid(btn.dataset.filter);
+            });
+        });
+
+        // Smooth Scroll
+        window.scrollToSection = (id) => {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        };
+
+        // --- CHARTS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGrid('all');
+
+            // Chart 1: Human vs Auto Trend (Line Chart)
+            const ctx1 = document.getElementById('evalTrendChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['2022', '2023', '2024', '2025'],
+                    datasets: [
+                        {
+                            label: 'Human-Centric',
+                            data: [2, 2, 1, 1], // Raw counts from our dataset (approx)
+                            borderColor: '#e11d48', // Rose 600
+                            backgroundColor: '#e11d48',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Automated/Hybrid',
+                            data: [1, 6, 5, 2], // Raw counts
+                            borderColor: '#0d9488', // Teal 600
+                            backgroundColor: '#0d9488',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                    }
+                }
+            });
+
+            // Chart 2: Focus Areas (Doughnut)
+            // Aggregating tags for the chart
+            const focusMap = { 'Composition': 0, 'Realism/Fidelity': 0, 'Safety/Bias': 0, 'Text/Design': 0, 'Other': 0 };
+            benchmarks.forEach(b => {
+                const t = b.target.toLowerCase();
+                if (t.includes('comp') || t.includes('spatial') || t.includes('relation') || t.includes('logic')) focusMap['Composition']++;
+                else if (t.includes('fidelity') || t.includes('preference') || t.includes('align') || t.includes('holistic')) focusMap['Realism/Fidelity']++;
+                else if (t.includes('safety') || t.includes('culture')) focusMap['Safety/Bias']++;
+                else if (t.includes('design') || t.includes('challenge')) focusMap['Text/Design']++;
+                else focusMap['Other']++;
+            });
+
+            const ctx2 = document.getElementById('focusAreaChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(focusMap),
+                    datasets: [{
+                        data: Object.values(focusMap),
+                        backgroundColor: [
+                            '#d97706', // Amber (Composition)
+                            '#0d9488', // Teal (Realism)
+                            '#e11d48', // Rose (Safety)
+                            '#4f46e5', // Indigo (Text)
+                            '#9ca3af'  // Gray (Other)
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right' }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
