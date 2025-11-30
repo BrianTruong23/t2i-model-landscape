@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>T2I Benchmark Review: 2022-2025</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -90,22 +91,238 @@
                     </div>
                 </div>
                 
-                <!-- Filters -->
-                <div class="flex flex-wrap gap-3 mb-8" id="filter-container">
-                    <button class="filter-btn active-filter px-4 py-2 rounded-full border border-amber-600 font-medium transition-all" data-filter="all">All</button>
-                    <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-600 font-medium transition-all" data-filter="2022">2022</button>
-                    <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-600 font-medium transition-all" data-filter="2023">2023</button>
-                    <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-600 font-medium transition-all" data-filter="2024">2024</button>
-                    <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-600 font-medium transition-all" data-filter="2025">2025</button>
-                    <div class="w-px h-8 bg-gray-300 mx-2 hidden sm:block"></div>
-                    <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-600 font-medium transition-all" data-filter="Human">Human Eval</button>
-                    <button class="filter-btn px-4 py-2 rounded-full border border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-600 font-medium transition-all" data-filter="Auto">Automated</button>
+                <!-- Metric Filters -->
+                <div class="flex flex-wrap gap-2 items-center mb-6">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mr-2">Metrics:</span>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-filter="metric" data-value="Human">Human</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-filter="metric" data-value="CLIP">CLIP</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-filter="metric" data-value="VQA">VQA</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-filter="metric" data-value="BLIP">BLIP</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-filter="metric" data-value="Object Detection">Obj Det</button>
+                </div>
+                
+                <!-- Filter Section -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <!-- Search and Primary Filters -->
+            <div class="flex flex-col md:flex-row gap-6 items-center justify-between mb-8">
+                <!-- Search -->
+                <div class="relative w-full md:w-96">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <input type="text" id="search-input" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-full leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-amber-500 focus:border-amber-500 sm:text-sm transition-shadow" placeholder="Search benchmarks, targets, descriptions..." oninput="renderGrid()">
+                </div>
+
+                <!-- Year Filters -->
+                <div class="flex flex-wrap gap-2 justify-center">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mr-2 self-center">Year:</span>
+                    <button class="filter-btn active-filter px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-amber-600 text-white shadow-md transform scale-105" data-filter="year" data-value="all">All</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-filter="year" data-value="2025">2025</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-filter="year" data-value="2024">2024</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-filter="year" data-value="2023">2023</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-filter="year" data-value="2022">2022</button>
                 </div>
             </div>
 
+            <!-- Category Filters -->
+            <div class="flex flex-wrap gap-2 items-center justify-center mb-8">
+                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mr-2">Focus:</span>
+                <button class="filter-btn active-filter px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-amber-600 text-white shadow-md transform scale-105" data-filter="category" data-value="all">All Focus</button>
+                <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-filter="category" data-value="composition">Composition</button>
+                <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-filter="category" data-value="reasoning">Reasoning</button>
+                <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-filter="category" data-value="both">Both</button>
+            </div>
+
             <!-- Grid -->
-            <div id="benchmark-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Cards injected via JS -->
+            <div id="benchmark-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Cards injected by JS -->
+            </div>
+        </div>
+        </section>
+
+        <!-- Section 1.5: Comparison Table -->
+        <section id="comparison" class="py-12 bg-gray-50 border-t border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Benchmark Comparison</h2>
+                    <p class="text-gray-600 max-w-3xl">
+                        Comparison between T2I-CoReBench and existing T2I benchmarks. T2I-CoReBench comprehensively covers 12 evaluation dimensions spanning both composition and reasoning scenarios.
+                    </p>
+                    <div class="mt-4 flex items-center gap-6 text-sm text-gray-600">
+                        <span class="flex items-center gap-2"><span class="text-lg">●</span> High-complexity coverage</span>
+                        <span class="flex items-center gap-2"><span class="text-lg">◐</span> Simple coverage</span>
+                        <span class="flex items-center gap-2"><span class="text-lg">○</span> Not covered</span>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-gray-200">
+                    <table class="w-full text-sm text-center">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-semibold border-b border-gray-200">
+                                <th rowspan="3" class="px-4 py-3 text-left bg-gray-50 sticky left-0 z-10 border-r border-gray-200">Benchmarks</th>
+                                <th colspan="4" class="px-4 py-2 border-r border-gray-200 bg-amber-50 text-amber-900">Composition</th>
+                                <th colspan="8" class="px-4 py-2 bg-indigo-50 text-indigo-900">Reasoning</th>
+                            </tr>
+                            <tr class="bg-gray-50 text-gray-600 text-xs uppercase tracking-wide border-b border-gray-200">
+                                <!-- Composition -->
+                                <th colspan="4" class="border-r border-gray-200 bg-amber-50/50"></th>
+                                <!-- Reasoning -->
+                                <th colspan="4" class="border-r border-gray-200 bg-indigo-50/50">Deductive</th>
+                                <th colspan="2" class="border-r border-gray-200 bg-indigo-50/50">Inductive</th>
+                                <th colspan="2" class="bg-indigo-50/50">Abductive</th>
+                            </tr>
+                            <tr class="text-xs text-gray-500 border-b border-gray-200">
+                                <!-- Composition Headers -->
+                                <th class="px-2 py-2 w-12 cursor-help" title="Multi-Instance">MI</th>
+                                <th class="px-2 py-2 w-12 cursor-help" title="Multi-Attribute">MA</th>
+                                <th class="px-2 py-2 w-12 cursor-help" title="Multi-Relation">MR</th>
+                                <th class="px-2 py-2 w-12 border-r border-gray-200 cursor-help" title="Text Rendering">TR</th>
+                                <!-- Reasoning Headers -->
+                                <th class="px-2 py-2 w-12 cursor-help" title="Logical Reasoning">LR</th>
+                                <th class="px-2 py-2 w-12 cursor-help" title="Behavioral Reasoning">BR</th>
+                                <th class="px-2 py-2 w-12 cursor-help" title="Hypothetical Reasoning">HR</th>
+                                <th class="px-2 py-2 w-12 border-r border-gray-200 cursor-help" title="Procedural Reasoning">PR</th>
+                                <th class="px-2 py-2 w-12 cursor-help" title="Generalization Reasoning">GR</th>
+                                <th class="px-2 py-2 w-12 border-r border-gray-200 cursor-help" title="Analogical Reasoning">AR</th>
+                                <th class="px-2 py-2 w-12 cursor-help" title="Commonsense Reasoning">CR</th>
+                                <th class="px-2 py-2 w-12 cursor-help" title="Reconstructive Reasoning">RR</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <!-- Rows -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">T2I-CompBench</td>
+                                <td>◐</td><td>◐</td><td>◐</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">GenEval</td>
+                                <td>◐</td><td>◐</td><td>◐</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">GenAI-Bench</td>
+                                <td>◐</td><td>◐</td><td>◐</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">DPG-Bench</td>
+                                <td>●</td><td>●</td><td>●</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">ConceptMix</td>
+                                <td>◐</td><td>◐</td><td>◐</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">TIIF-Bench</td>
+                                <td>◐</td><td>◐</td><td>◐</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">LongBench-T2I</td>
+                                <td>●</td><td>●</td><td>●</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">PRISM-Bench</td>
+                                <td>●</td><td>◐</td><td>●</td><td class="border-r border-gray-100">◐</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">UniGenBench</td>
+                                <td>◐</td><td>◐</td><td>◐</td><td class="border-r border-gray-100">◐</td>
+                                <td>◐</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>◐</td><td>○</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">Commonsense-T2I</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>◐</td><td>○</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">PhyBench</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>◐</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>◐</td><td>○</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">WISE</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>◐</td><td>○</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">T2I-ReasonBench</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">◐</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>◐</td><td>○</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">R2I-Bench</td>
+                                <td>○</td><td>○</td><td>◐</td><td class="border-r border-gray-100">○</td>
+                                <td>◐</td><td>◐</td><td>◐</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>◐</td><td>◐</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-4 py-3 text-left font-medium text-blue-600 sticky left-0 bg-white border-r border-gray-100">OneIG-Bench</td>
+                                <td>●</td><td>●</td><td>●</td><td class="border-r border-gray-100">●</td>
+                                <td>○</td><td>○</td><td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>○</td><td class="border-r border-gray-100">○</td>
+                                <td>◐</td><td>○</td>
+                            </tr>
+                            <tr class="bg-gray-900 text-white font-bold hover:bg-gray-800 transition-colors">
+                                <td class="px-4 py-3 text-left sticky left-0 bg-gray-900 border-r border-gray-700">T2I-CoReBench</td>
+                                <td>●</td><td>●</td><td>●</td><td class="border-r border-gray-700">●</td>
+                                <td>●</td><td>●</td><td>●</td><td class="border-r border-gray-700">●</td>
+                                <td>●</td><td class="border-r border-gray-700">●</td>
+                                <td>●</td><td>●</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Table Legend / Caption -->
+                <div class="mt-6 text-sm text-gray-600 space-y-3 bg-white p-4 rounded-lg border border-gray-200">
+                    <p class="font-medium text-gray-900">Table 1: T2I benchmark comparison.</p>
+                    <p>
+                        Our <strong>T2I-CoReBench</strong> comprehensively covers 12 evaluation dimensions spanning both composition 
+                        (<span class="font-semibold" title="Multi-Instance">MI</span> Multi-Instance, <span class="font-semibold" title="Multi-Attribute">MA</span> Multi-Attribute, <span class="font-semibold" title="Multi-Relation">MR</span> MultiRelation, <span class="font-semibold" title="Text Rendering">TR</span> Text Rendering) 
+                        and reasoning 
+                        (<span class="font-semibold" title="Logical Reasoning">LR</span> Logical Reasoning, <span class="font-semibold" title="Behavioral Reasoning">BR</span> Behavioral Reasoning, <span class="font-semibold" title="Hypothetical Reasoning">HR</span> Hypothetical Reasoning, <span class="font-semibold" title="Procedural Reasoning">PR</span> Procedural Reasoning, <span class="font-semibold" title="Generalization Reasoning">GR</span> Generalization Reasoning, <span class="font-semibold" title="Analogical Reasoning">AR</span> Analogical Reasoning, <span class="font-semibold" title="Commonsense Reasoning">CR</span> Commonsense Reasoning, and <span class="font-semibold" title="Reconstructive Reasoning">RR</span> Reconstructive Reasoning).
+                    </p>
+                    <p>
+                        The symbols denote different coverage levels: 
+                        <span class="inline-flex items-center gap-1 font-medium text-gray-900"><span class="text-lg">●</span> indicates high compositional (visual elements > 5) or reasoning (one-to-many or many-to-one inference) complexity,</span>
+                        <span class="inline-flex items-center gap-1 font-medium text-gray-900"><span class="text-lg">◐</span> indicates simple settings (visual elements ≤ 5 or one-to-one inference),</span>
+                        and <span class="inline-flex items-center gap-1 font-medium text-gray-900"><span class="text-lg">○</span> indicates no coverage.</span>
+                    </p>
+                </div>
             </div>
         </section>
 
@@ -134,127 +351,78 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Chart Details Panel -->
+                <div id="chart-details" class="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200 hidden transition-all duration-300">
+                    <h4 id="chart-details-title" class="text-lg font-bold text-gray-800 mb-3"></h4>
+                    <div id="chart-details-content" class="flex flex-wrap gap-2"></div>
+                </div>
             </div>
         </section>
 
-        <!-- Section 3: Future Trends (Old vs New Layout) -->
-        <section id="future" class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-gray-900 mb-8">The Evaluation Frontier</h2>
+        <!-- Section 3: Conclusion & Opportunities -->
+        <section id="conclusion" class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Conclusion & Opportunities</h2>
             
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 
-                <!-- Left Column: Current State (Smaller width, 4/12) -->
-                <div class="lg:col-span-4 bg-gray-50 p-6 rounded-xl border border-gray-200 h-fit sticky top-24">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-                        <span class="bg-gray-200 text-gray-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">Now</span>
-                        Standard Practices
-                    </h3>
-                    <div class="space-y-6">
-                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                            <h4 class="font-semibold text-gray-900">1. Distribution Metrics (FID)</h4>
-                            <p class="text-gray-600 text-sm mt-1">Comparing feature distributions. Slowly being phased out due to lack of perceptual alignment.</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                            <h4 class="font-semibold text-gray-900">2. CLIP Score</h4>
-                            <p class="text-gray-600 text-sm mt-1">Measuring cosine similarity. Good for high-level concepts, poor for counting or spatial relations.</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                            <h4 class="font-semibold text-gray-900">3. VQA-based Validation</h4>
-                            <p class="text-gray-600 text-sm mt-1">Using models to answer questions ("Is there a red cat?") about generated images. The current auto-eval gold standard.</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                            <h4 class="font-semibold text-gray-900">4. Human Preference (Elo)</h4>
-                            <p class="text-gray-600 text-sm mt-1">Side-by-side comparisons to train reward models. Expensive but provides "ground truth".</p>
-                        </div>
+                <!-- Left Column -->
+                <div class="space-y-8">
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm font-bold">1</span>
+                            Benchmark Landscape
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Modern T2I benchmarks mostly probe compositionality, reasoning, or a mix of both. 
+                            <strong>Composition-focused suites</strong> (e.g., T2I-CompBench++, GenEval) test object presence, attributes, and spatial relations. 
+                            <strong>Reasoning-focused ones</strong> (e.g., PhyBench, Commonsense-T2I) target physical laws and abstract reasoning. 
+                            <strong>Unified benchmarks</strong> (e.g., T2I-CoReBench, UniGen) combine these into a single semantic evaluation stack.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center text-sm font-bold">2</span>
+                            Evaluation Methodology
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            The field has largely moved from single scalar metrics (CLIP score, FID) toward <strong>automatic, diagnostic pipelines</strong> that chain open-vocabulary detectors (like UniDet), VQA models (BLIP-style), and MLLMs. These systems explicitly check object presence, attributes, and relations, exposing <em>why</em> a generation fails instead of just giving a global similarity score.
+                        </p>
                     </div>
                 </div>
 
-                <!-- Right Column: Future Directions (Larger width, 8/12) -->
-                <div class="lg:col-span-8 bg-amber-50 p-8 rounded-xl border border-amber-100">
-                    <h3 class="text-2xl font-bold text-amber-900 mb-8 flex items-center">
-                        <span class="bg-amber-200 text-amber-800 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">Next</span>
-                        Future Research Directions & Emerging Trends
-                    </h3>
-                    
-                    <div class="space-y-8">
-                        
-                        <!-- 1. Physics & Logic -->
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0 w-8 h-8 bg-amber-200 text-amber-800 rounded-full flex items-center justify-center font-bold text-sm">1</div>
-                            <div>
-                                <h4 class="text-lg font-bold text-gray-900">Physics, Causal Reasoning & Abstract Concepts</h4>
-                                <p class="text-gray-700 mt-2 leading-relaxed">
-                                    Evaluation must move beyond "object presence" to physical correctness. Does a "shattered glass" look truly shattered, or just a glass with lines? Benchmarks will simulate ground truth (gravity, reflections, liquid dynamics) to test intuitive physics. Furthermore, models must be probed on <strong>Abstract Concept Grounding</strong>—evaluating the depiction of non-physical concepts like "Silence" or "Chaos" effectively, rather than relying on concrete nouns.
-                                </p>
+                <!-- Right Column -->
+                <div class="space-y-8">
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm font-bold">3</span>
+                            Diagram Generation Gap
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Although there are now diagram datasets (e.g., AI2D-Caption, DiagramGenBenchmark), they are primarily designed around LLM+code renderers. There is still <strong>no dedicated, widely adopted benchmark</strong> that systematically evaluates pure text→image diffusion models on diagram generation, treating them as weak baselines.
+                        </p>
+                    </div>
+
+                    <div class="bg-amber-50 p-6 rounded-xl border border-amber-200 shadow-sm">
+                        <h3 class="text-xl font-bold text-amber-900 mb-3 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-full bg-amber-200 text-amber-800 flex items-center justify-center text-sm font-bold">4</span>
+                            Resulting Opportunity
+                        </h3>
+                        <p class="text-amber-800 leading-relaxed">
+                            A natural research direction is to recast existing diagram datasets into a T2I-focused benchmark. This involves defining <strong>diagram-specific automatic metrics</strong> (label correctness, topology consistency, text legibility) and explicitly positioning the suite as a Diagram-T2I benchmark targeting generic diffusion models rather than agentic pipelines.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+                        <!-- Chart Details Panel -->
+                        <div id="chart-details" class="mt-6 p-4 bg-gray-50 rounded-xl border border-gray-200 hidden transition-all">
+                            <h4 id="chart-details-title" class="text-sm font-bold text-gray-500 uppercase tracking-wide mb-2">Details</h4>
+                            <div id="chart-details-content" class="flex flex-wrap gap-2">
+                                <!-- Dynamic Content -->
                             </div>
                         </div>
-
-                        <!-- 2. Structured & Diagrammatic -->
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0 w-8 h-8 bg-amber-200 text-amber-800 rounded-full flex items-center justify-center font-bold text-sm">2</div>
-                            <div>
-                                <h4 class="text-lg font-bold text-gray-900">Structured & Diagrammatic Outputs</h4>
-                                <p class="text-gray-700 mt-2 leading-relaxed">
-                                    A new frontier involves generating strict structures: flowcharts, instructional diagrams, or anatomical sketches. Success requires not just rendering a "flower," but placing specific text labels ("petals", "stem") on the correct parts. Future benchmarks will utilize <strong>OCR and object detection</strong> pipelines to verify that every requested label is present, legible, and spatially aligned with its visual counterpart.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- 3. Culture -->
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0 w-8 h-8 bg-amber-200 text-amber-800 rounded-full flex items-center justify-center font-bold text-sm">3</div>
-                            <div>
-                                <h4 class="text-lg font-bold text-gray-900">Cultural & Subcultural Nuance</h4>
-                                <p class="text-gray-700 mt-2 leading-relaxed">
-                                    Bias evaluation must go beyond skin tone. Does the prompt "Wedding" only generate Western white dresses? We need <strong>global cultural knowledge bases</strong> and region-specific human evaluators to quantify cultural erasure. This includes testing if models respect local traditions (e.g., distinguishing an Indian wedding from a Japanese one) and avoiding stereotypes in occupational portrayals.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- 4. Consistency & Narrative -->
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0 w-8 h-8 bg-amber-200 text-amber-800 rounded-full flex items-center justify-center font-bold text-sm">4</div>
-                            <div>
-                                <h4 class="text-lg font-bold text-gray-900">Narrative Consistency & Long-Form Understanding</h4>
-                                <p class="text-gray-700 mt-2 leading-relaxed">
-                                    As prompts evolve into full paragraphs or stories, evaluation must check for <strong>Identity Retention</strong>: Can the model keep a character's face and clothing consistent across 5 different scenes? Metrics will also need to assess paragraph-level coherence ("The first sentence describes the background, the second the foreground") and multimodal fidelity, ensuring style reference images are actually respected.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- 5. Explainability -->
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0 w-8 h-8 bg-amber-200 text-amber-800 rounded-full flex items-center justify-center font-bold text-sm">5</div>
-                            <div>
-                                <h4 class="text-lg font-bold text-gray-900">Explainability & Transparency ("Glass Box" Eval)</h4>
-                                <p class="text-gray-700 mt-2 leading-relaxed">
-                                    The "Black Box" score (e.g., "7/10") is insufficient. Future evaluators will generate <strong>natural language reports</strong> explaining <em>why</em> a score was given (e.g., "The image matches the prompt but missed the 'red striped shirt' detail"). This will likely involve visual grounding techniques that highlight error regions on the image itself, helping developers debug models and building trust in the evaluation process.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- 6. Robustness & Safety -->
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0 w-8 h-8 bg-amber-200 text-amber-800 rounded-full flex items-center justify-center font-bold text-sm">6</div>
-                            <div>
-                                <h4 class="text-lg font-bold text-gray-900">Robustness, Memorization & Legal Safety</h4>
-                                <p class="text-gray-700 mt-2 leading-relaxed">
-                                    Benchmarks must quantify <strong>Copyright Probing</strong>—measuring how much training data is regurgitated to ensure legal safety (Novelty vs. Replica). Additionally, <strong>Robustness</strong> testing will become standard: models must maintain quality under adversarial attacks or slight prompt perturbations. Reporting statistical significance (confidence intervals) will be required to prove that improvements aren't just random noise.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- 7. Community & Multi-Objective -->
-                        <div class="flex gap-4">
-                            <div class="mt-1 flex-shrink-0 w-8 h-8 bg-amber-200 text-amber-800 rounded-full flex items-center justify-center font-bold text-sm">7</div>
-                            <div>
-                                <h4 class="text-lg font-bold text-gray-900">Multi-Objective Scoring & Community Suites</h4>
-                                <p class="text-gray-700 mt-2 leading-relaxed">
-                                    Real-world usage demands balancing trade-offs. We expect <strong>User-Tailored Metrics</strong> where users can tune weighted vectors (e.g., prioritizing "Creativity" over "Accuracy"). Finally, the field will move toward <strong>GLUE-style Community Benchmarks</strong>: centralized, open-source suites that combine short, long, compositional, and safety tests, allowing for fair, reproducible comparisons across all organizations.
-                                </p>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -287,19 +455,19 @@
         const benchmarks = [
             // 2022
             { 
-                id: 1, year: 2022, name: "DrawBench", target: "Challenge Prompts", type: "Human", axes: "Adherence, Fidelity", 
+                id: 1, year: 2022, name: "DrawBench", target: "Challenge Prompts", type: "Human", axes: "Adherence, Fidelity", category: "Other", metrics: ["Human"],
                 desc: "The Parti paper benchmark. Small but highly difficult set of prompts testing specific failures.",
                 detailedDesc: "Introduced in the Parti paper, DrawBench consists of 200 challenging prompts designed to probe specific failure modes of T2I models. Unlike larger datasets, it focuses on 'stress tests' like counting, complex spatial relations, and rendering text—areas where models historically struggle. Evaluation is strictly human-based comparisons.",
                 link: "https://arxiv.org/abs/2205.11487" 
             },
             { 
-                id: 2, year: 2022, name: "PartiPrompts", target: "Broad Capabilities", type: "Human", axes: "Composition, World Knowledge", 
+                id: 2, year: 2022, name: "PartiPrompts", target: "Broad Capabilities", type: "Human", axes: "Composition, World Knowledge", category: "Other", metrics: ["Human"],
                 desc: "1600+ prompts across categories like abstract, world knowledge, and art style.",
                 detailedDesc: "PartiPrompts is a rich collection of over 1,600 prompts categorized into various domains such as Abstract, World Knowledge, Animals, and Illustrations. It was designed to measure broad capabilities beyond simple object generation. The benchmark relies on human evaluation to judge semantic alignment and image quality.",
                 link: "https://arxiv.org/abs/2206.10789" 
             },
             { 
-                id: 3, year: 2022, name: "Winoground", target: "Visio-Linguistic", type: "Auto", axes: "Relation, Object Swap", 
+                id: 3, year: 2022, name: "Winoground", target: "Visio-Linguistic", type: "Auto", axes: "Relation, Object Swap", category: "Reasoning", metrics: ["CLIP", "VQA"],
                 desc: "Tests if models can distinguish between 'horse riding astronaut' and 'astronaut riding horse'.",
                 detailedDesc: "Inspired by the Winograd Schema Challenge, this benchmark tests a model's ability to link language to vision using 'minimal pairs'. It presents two captions with the same words in different orders (e.g., 'the basket is in the mug' vs 'the mug is in the basket') and checks if the model generates distinct, correct images for each.",
                 link: "https://arxiv.org/abs/2204.03162" 
@@ -307,43 +475,43 @@
             
             // 2023
             { 
-                id: 4, year: 2023, name: "T2I-CompBench", target: "Compositionality", type: "Auto (BLIP/CLIP)", axes: "Color, Shape, Texture, Spatial", 
+                id: 4, year: 2023, name: "T2I-CompBench", target: "Compositionality", type: "Auto (BLIP/CLIP)", axes: "Color, Shape, Texture, Spatial", category: "Composition", metrics: ["BLIP", "CLIP", "VQA"],
                 desc: "First comprehensive benchmark specifically for complex compositional reasoning.",
                 detailedDesc: "T2I-CompBench addresses the 'bag of words' problem where models ignore attribute binding. It evaluates attribute binding (color, shape, texture), spatial relationships, and complex interactions. It proposes new automated metrics using VQA and specialized captioning models to measure compositional success.",
                 link: "https://arxiv.org/abs/2307.06350" 
             },
             { 
-                id: 5, year: 2023, name: "TIFA", target: "Fidelity", type: "Auto (VQA)", axes: "Object Existence, Counting", 
+                id: 5, year: 2023, name: "TIFA", target: "Fidelity", type: "Auto (VQA)", axes: "Object Existence, Counting", category: "Other", metrics: ["VQA"],
                 desc: "Text-to-Image Fidelity Assessment. Converts prompts into QA pairs for VQA models.",
                 detailedDesc: "TIFA (Text-to-Image Fidelity Assessment) moves away from CLIP scores by treating evaluation as a Question-Answering task. It automatically generates multiple questions from a prompt (e.g., 'Is there a blue dog?') and uses a VQA model to answer them based on the generated image, providing a granular accuracy score.",
                 link: "https://arxiv.org/abs/2303.11897" 
             },
             { 
-                id: 6, year: 2023, name: "HEIM", target: "Holistic", type: "Human + Auto", axes: "12 Aspects (Bias, Quality, etc.)", 
+                id: 6, year: 2023, name: "HEIM", target: "Holistic", type: "Human + Auto", axes: "12 Aspects (Bias, Quality, etc.)", category: "Other", metrics: ["Human", "CLIP", "VQA"],
                 desc: "Holistic Evaluation of Text-to-Image Models. Massive scale coverage of non-quality aspects.",
                 detailedDesc: "HEIM (Holistic Evaluation of Text-to-Image Models) argues that quality and alignment are insufficient. It evaluates models across 12 distinct aspects including bias, toxicity, aesthetics, originality, and reasoning. It was one of the first to systematically benchmark the 'safety' and 'fairness' dimensions alongside performance.",
                 link: "https://arxiv.org/abs/2311.04287" 
             },
             { 
-                id: 7, year: 2023, name: "Pick-a-Pic", target: "Human Preference", type: "Human", axes: "Aesthetics, Alignment", 
+                id: 7, year: 2023, name: "Pick-a-Pic", target: "Human Preference", type: "Human", axes: "Aesthetics, Alignment", category: "Other", metrics: ["Human"],
                 desc: "Large-scale crowdsourced dataset of user preferences used to train reward models.",
                 detailedDesc: "Pick-a-Pic is a massive dataset of human preferences collected via a web interface where users generate images and pick the best one. This data is crucial for training 'Reward Models' (like ImageReward) that can mimic human aesthetic judgment, facilitating RLHF (Reinforcement Learning from Human Feedback) for images.",
                 link: "https://arxiv.org/abs/2305.01749" 
             },
             { 
-                id: 8, year: 2023, name: "ImageReward", target: "Reward Modeling", type: "Auto (Model)", axes: "Human Alignment", 
+                id: 8, year: 2023, name: "ImageReward", target: "Reward Modeling", type: "Auto (Model)", axes: "Human Alignment", category: "Other", metrics: ["Reward Model"],
                 desc: "A reward model trained to predict human preference, serving as a proxy metric.",
                 detailedDesc: "ImageReward is the first general-purpose text-to-image human preference reward model. It outperforms CLIP in aligning with human ranking. It addresses the issue that CLIP prefers images that contain the words, even if the composition is nonsense, whereas ImageReward captures aesthetic and structural quality.",
                 link: "https://arxiv.org/abs/2304.05977" 
             },
             { 
-                id: 9, year: 2023, name: "GenEval", target: "Object Detection", type: "Auto", axes: "Position, Count, Color", 
+                id: 9, year: 2023, name: "GenEval", target: "Object Detection", type: "Auto", axes: "Position, Count, Color", category: "Composition", metrics: ["Object Detection"],
                 desc: "Uses standard object detectors to verify if prompt entities actually appear.",
                 detailedDesc: "GenEval leverages off-the-shelf object detection models to evaluate T2I fidelity. It focuses on object presence, counting, and spatial positioning. By defining a distinct set of evaluation rules, it provides a 'recall' based metric to see if the model actually generated the noun phrases requested in the prompt.",
                 link: "https://arxiv.org/abs/2310.11513" 
             },
             { 
-                id: 10, year: 2023, name: "Dall-E 3 Eval", target: "Caption Follow-up", type: "Human", axes: "Long Context, Detail", 
+                id: 10, year: 2023, name: "Dall-E 3 Eval", target: "Caption Follow-up", type: "Human", axes: "Long Context, Detail", category: "Other", metrics: ["Human"],
                 desc: "Focuses on paragraph-level prompt adherence and detail retention.",
                 detailedDesc: "Released with the DALL-E 3 technical report, this evaluation methodology focuses on 'caption upweighting' and long-context adherence. It specifically tests whether the model generates the minute details found in a long, descriptive paragraph, rather than just the main subject.",
                 link: "https://cdn.openai.com/papers/dall-e-3.pdf" 
@@ -351,86 +519,162 @@
 
             // 2024
             { 
-                id: 11, year: 2024, name: "HRS-Bench", target: "Spatial/Resolution", type: "Auto", axes: "High Resolution, Spatial", 
+                id: 11, year: 2024, name: "HRS-Bench", target: "Spatial/Resolution", type: "Auto", axes: "High Resolution, Spatial", category: "Composition", metrics: ["VQA", "Object Detection"],
                 desc: "Holistic evaluation for high-res generation and finer spatial details.",
                 detailedDesc: "HRS-Bench focuses on High-Resolution and Spatial capability. As models scale to 4K generation, standard metrics fail. This benchmark evaluates how well models maintain structural coherence and spatial relationships (e.g., 'left of', 'inside') at higher pixel counts.",
                 link: "https://arxiv.org/abs/2304.05390" 
             },
             { 
-                id: 12, year: 2024, name: "RichHF-18K", target: "Rich Human Feedback", type: "Human", axes: "Artifacts, Plausibility", 
+                id: 12, year: 2024, name: "RichHF-18K", target: "Rich Human Feedback", type: "Human", axes: "Artifacts, Plausibility", category: "Other", metrics: ["Human"],
                 desc: "Annotates specific regions of error (extra fingers, glitch) rather than just a score.",
                 detailedDesc: "RichHF moves beyond binary 'good/bad' ratings. It provides fine-grained human feedback including point annotations and heatmaps indicating exactly *where* an image fails (e.g., highlighting a distorted hand or a missing leg). This data allows for training much more precise correction models.",
                 link: "https://arxiv.org/abs/2312.10240" 
             },
             { 
-                id: 13, year: 2024, name: "SafetyBench-T2I", target: "Safety", type: "Auto", axes: "NSFW, Bias, Copyright", 
+                id: 13, year: 2024, name: "SafetyBench-T2I", target: "Safety", type: "Auto", axes: "NSFW, Bias, Copyright", category: "Other", metrics: ["Classification"],
                 desc: "Stress-testing safety filters and adversarial robustness.",
                 detailedDesc: "SafetyBench is a comprehensive test suite for evaluating the safety of T2I models. It covers categories like NSFW content, political bias, violence, and copyright infringement. It also includes adversarial prompts designed to bypass standard safety filters (jailbreaking).",
                 link: "https://arxiv.org/abs/2501.12612" 
             },
             { 
-                id: 14, year: 2024, name: "DesignBench", target: "Graphic Design", type: "Auto", axes: "Typography, Layout", 
+                id: 14, year: 2024, name: "DesignBench", target: "Graphic Design", type: "Auto", axes: "Typography, Layout", category: "Composition", metrics: ["OCR", "VQA"],
                 desc: "Evaluating text rendering, logo design, and poster layout capabilities.",
                 detailedDesc: "DesignBench evaluates T2I models on graphic design tasks. It specifically tests the ability to render legible text (typography), create cohesive layouts, and generate logo-like structures. It highlights the gap between photorealistic generation and functional graphic design.",
                 link: "https://arxiv.org/abs/2310.15144" 
             },
             { 
-                id: 15, year: 2024, name: "GeomVerse", target: "Geometry", type: "Auto", axes: "Perspective, 3D Relation", 
+                id: 15, year: 2024, name: "GeomVerse", target: "Geometry", type: "Auto", axes: "Perspective, 3D Relation", category: "Composition", metrics: ["Geometric"],
                 desc: "Testing if 2D images respect 3D geometric transformations and relations.",
                 detailedDesc: "GeomVerse evaluates the geometric consistency of generated images. It tests if the model understands 3D concepts like perspective, occlusion, and viewpoint changes. For example, if asked for a 'top-down view', does the model actually flatten the perspective correctly?",
                 link: "https://arxiv.org/abs/2312.12241" 
             },
             { 
-                id: 16, year: 2024, name: "VQAScore", target: "Alignment", type: "Auto (VQA)", axes: "Complex Alignment", 
+                id: 16, year: 2024, name: "VQAScore", target: "Alignment", type: "Auto (VQA)", axes: "Complex Alignment", category: "Other", metrics: ["VQA"],
                 desc: "Using advanced VQA models to score alignment, outperforming CLIP.",
                 detailedDesc: "This paper proposes using state-of-the-art Visual Question Answering models (like CLIP-FlanT5) to score text-image alignment. It demonstrates that VQA models, which are trained on more complex language tasks, correlate far better with human judgment on complex prompts than the standard CLIP score.",
                 link: "https://arxiv.org/abs/2404.01291" 
             },
-
-            // 2025 (Trends)
             { 
-                id: 17, year: 2025, name: "Logic-T2I", target: "Logical Reasoning", type: "Auto", axes: "Negation, Implication", 
+                id: 17, year: 2024, name: "GenAI-Bench", target: "Compositionality", type: "Auto", axes: "Composition, Reasoning", category: "Composition", metrics: ["VQA", "CLIP"],
+                desc: "Evaluating and improving compositional text-to-visual generation.",
+                detailedDesc: "GenAI-Bench evaluates the compositional capabilities of T2I models. It focuses on how well models can combine different concepts and attributes to create a coherent image, addressing the challenge of 'binding' attributes to the correct objects.",
+                link: "https://arxiv.org/abs/2406.13743" 
+            },
+            { 
+                id: 18, year: 2024, name: "DPG-Bench", target: "Semantic Alignment", type: "Auto", axes: "Dense Prompt, Alignment", category: "Composition", metrics: ["VQA", "LLM-Eval"],
+                desc: "Equipping diffusion models with LLMs for enhanced semantic alignment.",
+                detailedDesc: "Introduced in the ELLA paper, DPG-Bench focuses on dense prompt generation and semantic alignment. It evaluates how well models can handle complex, detailed prompts by leveraging Large Language Models to enhance the understanding of the diffusion model.",
+                link: "https://arxiv.org/abs/2403.05135" 
+            },
+            { 
+                id: 19, year: 2024, name: "ConceptMix", target: "Compositionality", type: "Auto", axes: "Controllable Difficulty", category: "Composition", metrics: ["VQA"],
+                desc: "A compositional image generation benchmark with controllable difficulty.",
+                detailedDesc: "ConceptMix introduces a benchmark with controllable difficulty for compositional image generation. It allows for a more nuanced evaluation of how models handle increasingly complex combinations of concepts.",
+                link: "https://arxiv.org/abs/2408.14339" 
+            },
+            { 
+                id: 20, year: 2024, name: "Commonsense-T2I", target: "Commonsense", type: "Auto", axes: "Commonsense Understanding", category: "Reasoning", metrics: ["VQA", "Human"],
+                desc: "Can text-to-image generation models understand commonsense?",
+                detailedDesc: "Commonsense-T2I challenges models to generate images that adhere to commonsense knowledge. It tests whether models can avoid generating physically or logically impossible scenarios that violate our understanding of the world.",
+                link: "https://arxiv.org/abs/2406.07546" 
+            },
+            { 
+                id: 21, year: 2024, name: "PhyBench", target: "Physics", type: "Auto", axes: "Physical Commonsense", category: "Reasoning", metrics: ["VQA", "Simulation"],
+                desc: "A physical commonsense benchmark for evaluating text-to-image models.",
+                detailedDesc: "PhyBench evaluates the physical plausibility of generated images. It tests whether models respect laws of physics such as gravity, reflection, and material properties, ensuring that generated scenes are physically consistent.",
+                link: "https://arxiv.org/abs/2406.11802" 
+            },
+            { 
+                id: 22, year: 2024, name: "Culture-Bench", target: "Cultural Nuance", type: "Human + Auto", axes: "Global Concepts, Stereotypes", category: "Other", metrics: ["Human", "VQA"],
+                desc: "Evaluating generation across diverse cultural contexts and non-Western norms.",
+                detailedDesc: "Culture-Bench (CUBE) evaluates the cultural inclusivity of T2I models. It tests prompts related to non-Western festivals, clothing, food, and traditions to check for stereotyping or erasure. It emphasizes the need for models to understand that 'wedding' looks different in India vs. the USA.",
+                link: "https://arxiv.org/abs/2407.06863" 
+            },
+
+            // 2025
+            { 
+                id: 23, year: 2025, name: "Logic-T2I", target: "Logical Reasoning", type: "Auto", axes: "Negation, Implication", category: "Reasoning", metrics: ["VQA", "Logic"],
                 desc: "Can the model handle 'Not a red ball' or 'If rain, then umbrella'?",
                 detailedDesc: "Logic-T2I investigates the logical reasoning capabilities of diffusion models. It focuses on negation ('a room without chairs'), implication ('if it is raining, people hold umbrellas'), and conjunction. It reveals that while models are good at nouns, they struggle significantly with logical operators.",
                 link: "https://arxiv.org/abs/2510.00796" 
             },
             { 
-                id: 18, year: 2025, name: "Culture-Bench", target: "Cultural Nuance", type: "Human + Auto", axes: "Global Concepts, Stereotypes", 
-                desc: "Evaluating generation across diverse cultural contexts and non-Western norms.",
-                detailedDesc: "Culture-Bench evaluates the cultural inclusivity of T2I models. It tests prompts related to non-Western festivals, clothing, food, and traditions to check for stereotyping or erasure. It emphasizes the need for models to understand that 'wedding' looks different in India vs. the USA.",
-                link: "https://arxiv.org/abs/2411.13962" 
-            },
-            { 
-                id: 19, year: 2025, name: "Phys-T2I", target: "Physics", type: "Auto", axes: "Gravity, Reflection", 
-                desc: "Assessing physical plausibility of objects interaction (e.g., water splashing).",
-                detailedDesc: "Phys-T2I benchmarks the intuitive physics of generated images. It checks for correctness in shadows, reflections, liquid dynamics, and gravity (e.g., 'a stack of blocks' shouldn't float). It uses physical simulation engines as a ground truth comparison.",
-                link: "https://arxiv.org/abs/2406.11802" 
-            },
-            { 
-                id: 20, year: 2025, name: "Consistency-Story", target: "Consistency", type: "Auto", axes: "Identity, Style Retention", 
+                id: 24, year: 2025, name: "Consistency-Story", target: "Consistency", type: "Auto", axes: "Identity, Style Retention", category: "Other", metrics: ["FaceID", "CLIP"],
                 desc: "Evaluating subject consistency across multiple prompts for storytelling.",
                 detailedDesc: "Focused on narrative generation, this benchmark evaluates 'Identity Consistency'. Can the model generate the exact same character in 10 different poses and settings without morphing their facial features or clothing style? Critical for storyboard and comic creation.",
                 link: "https://arxiv.org/abs/2407.08683" 
             },
-
-            // New Additions (Requests)
             { 
-                id: 21, year: 2025, name: "TIFF Bench", target: "Fidelity", type: "Auto", axes: "Atomic Faithfulness, VQA", 
+                id: 25, year: 2025, name: "TIFF Bench", target: "Fidelity", type: "Auto", axes: "Atomic Faithfulness, VQA", category: "Other", metrics: ["VQA", "Atomic"],
                 desc: "Text-Image Fidelity and Faithfulness: Decomposing prompts into atomic claims for verification.",
                 detailedDesc: "TIFF Bench (Text-Image Fidelity and Faithfulness) tackles the problem of 'hallucinated' or missing content by decomposing complex text prompts into atomic assertions (e.g., 'There is a cat', 'The cat is black', 'The cat is on a mat'). It then uses specialized VQA or verification models to check each claim against the image, providing a highly granular faithfulness score that correlates better with human judgment than global similarity metrics.",
                 link: "https://arxiv.org/abs/2506.02161" 
             },
             { 
-                id: 22, year: 2025, name: "FineGrain", target: "Fine-Grained Details", type: "Auto", axes: "Texture, Attributes, Parts", 
+                id: 26, year: 2025, name: "FineGrain", target: "Fine-Grained Details", type: "Auto", axes: "Texture, Attributes, Parts", category: "Other", metrics: ["VQA", "Segmentation"],
                 desc: "Diagnosing subtle errors in texture, object parts, and attribute leakage.",
                 detailedDesc: "FineGrain is a diagnostic benchmark designed to catch the subtle errors that standard metrics miss. Instead of just a pass/fail, it categorizes errors into specific classes such as texture anomalies, missing object sub-parts (e.g., a clock missing hands), and attribute leakage (where the color of one object bleeds into another). It serves as a microscope for model performance.",
                 link: "https://finegrainbench.ai/" 
             },
             { 
-                id: 23, year: 2024, name: "T2I-CompBench++", target: "Compositionality", type: "Auto (Multimodal)", axes: "3D Spatial, Complex Binding", 
-                desc: "An enhanced version of T2I-CompBench adding 3D relations and complex attribute binding.",
-                detailedDesc: "Building on the foundational T2I-CompBench, the '++' iteration significantly raises the difficulty ceiling. It introduces evaluation categories for 3D spatial relationships (e.g., 'behind' vs 'occluded by'), intricate texture binding (ensuring the 'plaid' pattern is on the shirt, not the pants), and multi-object interactions. It is designed to stress-test the latest generation of models that have arguably solved simpler compositional tasks.",
-                link: "https://arxiv.org/abs/2307.06350" // Linking to original paper/project page as ++ is often an extension
+                id: 27, year: 2025, name: "TIIF-Bench", target: "Instruction Following", type: "Auto", axes: "Instruction Adherence", category: "Composition", metrics: ["VQA", "LLM-Eval"],
+                desc: "How does your T2I model follow your instructions?",
+                detailedDesc: "TIIF-Bench evaluates how well T2I models follow specific instructions in the prompt. It focuses on the model's ability to adhere to constraints and requirements specified by the user, ensuring that the generated image matches the user's intent.",
+                link: "https://arxiv.org/abs/2506.02161" 
+            },
+            { 
+                id: 28, year: 2025, name: "LongBench-T2I", target: "Holistic", type: "Auto", axes: "Complex Instruction", category: "Both", metrics: ["VQA", "Human"],
+                desc: "A holistic benchmark and agent framework for complex instruction-based image generation.",
+                detailedDesc: "LongBench-T2I evaluates models on complex, long-form instructions. It tests the model's ability to handle detailed and multi-faceted prompts, often requiring an agentic framework to fully resolve the complexity of the generation task.",
+                link: "https://arxiv.org/abs/2505.24787" 
+            },
+            { 
+                id: 29, year: 2025, name: "PRISM-Bench", target: "Reasoning", type: "Auto", axes: "Reasoning, Composition", category: "Both", metrics: ["VQA", "Reasoning"],
+                desc: "A million-scale text-to-image reasoning dataset and comprehensive benchmark.",
+                detailedDesc: "PRISM-Bench is a large-scale benchmark focused on reasoning capabilities. It includes tracks for imagination, entity handling, text rendering, and more, aiming to push the boundaries of what T2I models can 'reason' about during generation.",
+                link: "https://arxiv.org/abs/2509.09680" 
+            },
+            { 
+                id: 30, year: 2025, name: "UniGenBench", target: "Semantic Evaluation", type: "Auto", axes: "Unified Semantics", category: "Both", metrics: ["VQA", "Semantic"],
+                desc: "A unified semantic evaluation benchmark for text-to-image generation.",
+                detailedDesc: "UniGenBench++ proposes a unified framework for semantic evaluation. It aims to standardize how we measure the semantic alignment of generated images with their textual prompts across various dimensions.",
+                link: "https://arxiv.org/abs/2510.18701" 
+            },
+            { 
+                id: 31, year: 2025, name: "WISE", target: "Evaluation", type: "Auto", axes: "Evaluation Metric", category: "Other", metrics: ["Metric Eval"],
+                desc: "A new benchmark for evaluating T2I models.",
+                detailedDesc: "WISE introduces a new methodology for benchmarking T2I models, focusing on robust and scalable evaluation metrics that better reflect human judgment.",
+                link: "https://arxiv.org/abs/2503.07265" 
+            },
+            { 
+                id: 32, year: 2025, name: "T2I-ReasonBench", target: "Reasoning", type: "Auto", axes: "Reasoning-Informed", category: "Reasoning", metrics: ["VQA", "Reasoning"],
+                desc: "Benchmarking reasoning-informed text-to-image generation.",
+                detailedDesc: "T2I-ReasonBench focuses on the intersection of reasoning and generation. It tests whether models can perform implicit reasoning steps required to generate an image that makes sense given the prompt.",
+                link: "https://arxiv.org/abs/2508.17472" 
+            },
+            { 
+                id: 33, year: 2025, name: "R2I-Bench", target: "Reasoning", type: "Auto", axes: "Reasoning-Driven", category: "Reasoning", metrics: ["VQA", "Reasoning"],
+                desc: "Benchmarking reasoning-driven text-to-image generation.",
+                detailedDesc: "R2I-Bench evaluates how well models can handle prompts that require logical deduction or multi-step reasoning to visualize correctly, moving beyond simple object co-occurrence.",
+                link: "https://arxiv.org/abs/2505.23493" 
+            },
+            { 
+                id: 34, year: 2025, name: "OneIG-Bench", target: "Nuanced Evaluation", type: "Auto", axes: "Omni-dimensional", category: "Both", metrics: ["VQA", "Human", "Omni"],
+                desc: "Omni-dimensional nuanced evaluation for image generation.",
+                detailedDesc: "OneIG-Bench proposes a comprehensive, multi-dimensional evaluation framework. It looks at fine-grained details and nuanced aspects of generation that are often overlooked by broader metrics.",
+                link: "https://arxiv.org/abs/2506.07977" 
+            },
+            { 
+                id: 35, year: 2025, name: "T2I-CoReBench", target: "Composition & Reasoning", type: "Auto", axes: "Composition, Reasoning", category: "Both", metrics: ["VQA", "Reasoning"],
+                desc: "Comprehensive coverage of 12 evaluation dimensions spanning composition and reasoning.",
+                detailedDesc: "T2I-CoReBench is a comprehensive benchmark that covers 12 evaluation dimensions, spanning both composition and reasoning scenarios. It distinguishes between high-complexity and simple coverage, providing a detailed map of model capabilities.",
+                link: "https://arxiv.org/abs/2509.03516" 
+            },
+            { 
+                id: 36, year: 2025, name: "T2I-CompBench++", target: "Compositionality", type: "Auto", axes: "Attribute Binding, Spatial, Complex", category: "Composition", metrics: ["BLIP", "VQA", "UniDet"],
+                desc: "Enhanced benchmark with new metrics for attribute binding, spatial relationships, and complex compositions.",
+                detailedDesc: "T2I-CompBench++ extends the original benchmark by introducing new evaluation metrics: Disentangled BLIP-VQA for attribute binding, UniDet-based metric for spatial relationships, and 3-in-1 metric for complex compositions. It provides a more robust evaluation of compositional text-to-image generation.",
+                link: "https://arxiv.org/pdf/2307.06350" 
             }
         ];
 
@@ -453,10 +697,14 @@
 
             modalContent.innerHTML = `
                 <div class="relative bg-white p-8 rounded-2xl">
-                    <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                    <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-10 bg-white rounded-full p-1 shadow-sm">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                     
+                    <div class="mb-6 h-64 overflow-hidden rounded-xl bg-gray-100 relative shadow-sm">
+                        <img src="images/${b.id}.png" alt="${b.name} Framework" class="w-full h-full object-contain" onerror="this.parentElement.style.display='none'">
+                    </div>
+
                     <div class="flex items-center gap-3 mb-2">
                         <span class="text-sm font-bold px-3 py-1 rounded-full ${badgeColor}">${b.type}</span>
                         <span class="text-gray-500 font-medium">${b.year}</span>
@@ -507,46 +755,99 @@
         });
 
         // Grid Rendering
-        function renderGrid(filter) {
-            grid.innerHTML = '';
-            
+        function renderGrid() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+
             const filtered = benchmarks.filter(b => {
-                if (filter === 'all') return true;
-                if (filter === 'Human' || filter === 'Auto') {
-                    return b.type.includes(filter);
+                // Filter Logic
+                const matchesSearch = b.name.toLowerCase().includes(searchTerm) || 
+                                    b.desc.toLowerCase().includes(searchTerm) ||
+                                    b.detailedDesc.toLowerCase().includes(searchTerm);
+                
+                const matchesYear = activeYear === 'all' || b.year === parseInt(activeYear);
+                const matchesType = activeType === 'all' || 
+                                  (activeType === 'human' && b.type.toLowerCase().includes('human')) ||
+                                  (activeType === 'auto' && b.type.toLowerCase().includes('auto'));
+
+                // Category Filter Logic
+                let matchesCategory = true;
+                if (activeCategory === 'composition') {
+                    matchesCategory = b.category === 'Composition';
+                } else if (activeCategory === 'reasoning') {
+                    matchesCategory = b.category === 'Reasoning';
+                } else if (activeCategory === 'both') {
+                    matchesCategory = b.category === 'Both';
                 }
-                return b.year.toString() === filter;
+
+                // Metric Filter Logic
+                const matchesMetrics = activeMetrics.length === 0 || activeMetrics.every(m => b.metrics && b.metrics.includes(m));
+
+                return matchesSearch && matchesYear && matchesType && matchesCategory && matchesMetrics;
             });
+
+            // Clear grid
+            grid.innerHTML = '';
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900">No benchmarks found</h3>
+                        <p class="text-gray-500 mt-1">Try adjusting your filters or search query.</p>
+                    </div>
+                `;
+                return;
+            }
 
             filtered.forEach(b => {
                 const card = document.createElement('div');
-                card.className = 'bg-white rounded-xl border border-gray-200 p-6 card-hover transition-all flex flex-col justify-between group';
+                card.className = 'group bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col h-full relative overflow-hidden';
                 card.onclick = () => openModal(b.id);
-                
+
+                // Badge Logic
                 let badgeColor = "bg-gray-100 text-gray-800";
                 if (b.type.includes('Human')) badgeColor = "bg-rose-100 text-rose-800";
                 if (b.type.includes('Auto')) badgeColor = "bg-teal-100 text-teal-800";
                 if (b.type.includes('+')) badgeColor = "bg-indigo-100 text-indigo-800";
 
+                let catBadge = "";
+                if (b.category === 'Composition') catBadge = `<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100">Comp</span>`;
+                if (b.category === 'Reasoning') catBadge = `<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-100">Reason</span>`;
+                if (b.category === 'Both') catBadge = `<span class="text-xs font-bold px-2 py-0.5 rounded-full bg-fuchsia-50 text-fuchsia-700 border border-fuchsia-100">Both</span>`;
+
+                // Metric Badges (limit to 2 for display)
+                let metricBadges = "";
+                if (b.metrics && b.metrics.length > 0) {
+                    metricBadges = `<div class="flex flex-wrap gap-1 mt-2">
+                        ${b.metrics.slice(0, 3).map(m => `<span class="text-[10px] font-medium px-1.5 py-0.5 rounded bg-gray-50 text-gray-500 border border-gray-100">${m}</span>`).join('')}
+                        ${b.metrics.length > 3 ? `<span class="text-[10px] font-medium px-1.5 py-0.5 rounded bg-gray-50 text-gray-500 border border-gray-100">+${b.metrics.length - 3}</span>` : ''}
+                    </div>`;
+                }
+
                 card.innerHTML = `
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-xs font-bold px-2 py-1 rounded ${badgeColor}">${b.type}</span>
-                            <span class="text-sm font-semibold text-gray-400 group-hover:text-amber-600 transition-colors">${b.year}</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-amber-600 transition-colors">${b.name}</h3>
-                        <p class="text-sm text-gray-600 mb-4 line-clamp-3">${b.desc}</p>
-                        
-                        <div class="mb-4">
-                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wide">Target</h4>
-                            <p class="text-sm font-medium text-gray-800">${b.target}</p>
-                        </div>
+                    <div class="mb-4 h-40 overflow-hidden rounded-xl bg-gray-50 relative group-hover:bg-white transition-colors">
+                         <img src="images/${b.id}.png" alt="${b.name}" class="w-full h-full object-contain mix-blend-multiply opacity-90 group-hover:opacity-100 transition-opacity" onerror="this.parentElement.style.display='none'">
                     </div>
-                    <div class="pt-4 border-t border-gray-100">
-                        <div class="flex justify-between items-center">
-                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wide">Click for Details</h4>
-                            <svg class="w-5 h-5 text-gray-300 group-hover:text-amber-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold px-2.5 py-1 rounded-full ${badgeColor}">${b.type.split(' ')[0]}</span>
+                            ${catBadge}
                         </div>
+                        <span class="text-sm text-gray-400 font-mono">${b.year}</span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-amber-600 transition-colors">${b.name}</h3>
+                    <p class="text-sm font-medium text-amber-600 mb-3">${b.target}</p>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4 flex-grow">${b.desc}</p>
+                    
+                    ${metricBadges}
+
+                    <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+                        <span class="truncate max-w-[70%] font-medium" title="${b.axes}">${b.axes}</span>
+                        <svg class="w-4 h-4 text-gray-300 group-hover:text-amber-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -554,17 +855,48 @@
         }
 
         // Filter Click Handlers
+        let activeYear = 'all';
+        let activeType = 'all';
+        let activeCategory = 'all';
+        let activeMetrics = [];
+
         btns.forEach(btn => {
             btn.addEventListener('click', () => {
-                btns.forEach(b => {
-                    b.classList.remove('active-filter', 'border-amber-600', 'text-white');
-                    b.classList.add('border-gray-300', 'text-gray-600');
-                    if (b === btn) {
-                        b.classList.add('active-filter');
-                        b.classList.remove('border-gray-300', 'text-gray-600');
+                const filterType = btn.dataset.filter;
+                const value = btn.dataset.value;
+
+                // Handle Metric Multi-select
+                if (filterType === 'metric') {
+                    if (activeMetrics.includes(value)) {
+                        activeMetrics = activeMetrics.filter(m => m !== value);
+                        btn.classList.remove('bg-amber-100', 'text-amber-800', 'border-amber-200', 'font-bold');
+                        btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200', 'hover:bg-gray-50');
+                    } else {
+                        activeMetrics.push(value);
+                        btn.classList.add('bg-amber-100', 'text-amber-800', 'border-amber-200', 'font-bold');
+                        btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200', 'hover:bg-gray-50');
+                    }
+                    renderGrid();
+                    return;
+                }
+
+                // Handle Standard Filters
+                if (filterType === 'year') activeYear = value;
+                if (filterType === 'type') activeType = value;
+                if (filterType === 'category') activeCategory = value;
+
+                // Update UI for standard filters
+                document.querySelectorAll(`.filter-btn[data-filter="${filterType}"]`).forEach(b => {
+                    if (b.dataset.value === value) {
+                        b.classList.add('active-filter', 'bg-amber-600', 'text-white', 'shadow-md', 'transform', 'scale-105');
+                        b.classList.remove('bg-white', 'text-gray-600', 'hover:bg-gray-50');
+                    } else {
+                        b.classList.remove('active-filter', 'bg-amber-600', 'text-white', 'shadow-md', 'transform', 'scale-105');
+                        b.classList.add('bg-white', 'text-gray-600', 'hover:bg-gray-50');
                     }
                 });
-                renderGrid(btn.dataset.filter);
+
+                renderGrid();
             });
         });
 
@@ -577,6 +909,21 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderGrid('all');
 
+            const detailsPanel = document.getElementById('chart-details');
+            const detailsTitle = document.getElementById('chart-details-title');
+            const detailsContent = document.getElementById('chart-details-content');
+
+            function showDetails(title, items) {
+                detailsPanel.classList.remove('hidden');
+                detailsTitle.textContent = title;
+                detailsContent.innerHTML = items.map(b => 
+                    `<a href="${b.link}" target="_blank" class="px-3 py-1 bg-white border border-gray-300 rounded-full text-xs font-medium text-gray-700 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-300 transition-colors flex items-center gap-1">
+                        ${b.name}
+                        <svg class="w-3 h-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>`
+                ).join('');
+            }
+
             // Chart 1: Human vs Auto Trend (Line Chart)
             const ctx1 = document.getElementById('evalTrendChart').getContext('2d');
             new Chart(ctx1, {
@@ -586,12 +933,12 @@
                     datasets: [
                         {
                             label: 'Human-Centric',
-                            data: [2, 2, 1, 1], 
+                            data: [2, 2, 1, 0], 
                             backgroundColor: '#e11d48',
                         },
                         {
                             label: 'Automated/Hybrid',
-                            data: [1, 6, 5, 5], // Updated for new 2025/2024 entries
+                            data: [1, 5, 11, 14], 
                             backgroundColor: '#0d9488',
                         }
                     ]
@@ -603,19 +950,37 @@
                     scales: {
                         y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { display: false } },
                         x: { grid: { display: false } }
+                    },
+                    onHover: (e, elements) => {
+                        if (elements.length > 0) {
+                            const index = elements[0].index;
+                            const datasetIndex = elements[0].datasetIndex;
+                            const year = ['2022', '2023', '2024', '2025'][index];
+                            const type = datasetIndex === 0 ? 'Human' : 'Auto'; // 0 is Human, 1 is Auto
+                            
+                            const items = benchmarks.filter(b => 
+                                b.year.toString() === year && 
+                                (type === 'Human' ? b.type.includes('Human') : !b.type.includes('Human'))
+                            );
+                            
+                            showDetails(`${year} - ${type === 'Human' ? 'Human-Centric' : 'Automated/Hybrid'} Benchmarks`, items);
+                        }
                     }
                 }
             });
 
             // Chart 2: Focus Areas (Doughnut)
-            const focusMap = { 'Composition': 0, 'Realism/Fidelity': 0, 'Safety/Bias': 0, 'Text/Design': 0, 'Other': 0 };
+            const focusMap = { 'Comp & Reasoning': [], 'Realism & Alignment': [], 'Safety & Bias': [], 'Text & Instruction': [], 'Other': [] };
+            
             benchmarks.forEach(b => {
                 const t = b.target.toLowerCase();
-                if (t.includes('comp') || t.includes('spatial') || t.includes('relation') || t.includes('logic')) focusMap['Composition']++;
-                else if (t.includes('fidelity') || t.includes('preference') || t.includes('align') || t.includes('holistic') || t.includes('faithfulness')) focusMap['Realism/Fidelity']++;
-                else if (t.includes('safety') || t.includes('culture')) focusMap['Safety/Bias']++;
-                else if (t.includes('design') || t.includes('challenge')) focusMap['Text/Design']++;
-                else focusMap['Other']++;
+                let category = 'Other';
+                if (t.includes('comp') || t.includes('spatial') || t.includes('relation') || t.includes('logic') || t.includes('reason') || t.includes('geometry') || t.includes('physics') || t.includes('commonsense') || t.includes('object')) category = 'Comp & Reasoning';
+                else if (t.includes('fidelity') || t.includes('preference') || t.includes('align') || t.includes('holistic') || t.includes('faithfulness') || t.includes('consistency') || t.includes('semantic')) category = 'Realism & Alignment';
+                else if (t.includes('safety') || t.includes('culture')) category = 'Safety & Bias';
+                else if (t.includes('design') || t.includes('challenge') || t.includes('instruction') || t.includes('caption')) category = 'Text & Instruction';
+                
+                focusMap[category].push(b);
             });
 
             const ctx2 = document.getElementById('focusAreaChart').getContext('2d');
@@ -624,7 +989,7 @@
                 data: {
                     labels: Object.keys(focusMap),
                     datasets: [{
-                        data: Object.values(focusMap),
+                        data: Object.values(focusMap).map(arr => arr.length),
                         backgroundColor: ['#d97706', '#0d9488', '#e11d48', '#4f46e5', '#9ca3af'],
                         borderWidth: 0
                     }]
@@ -632,7 +997,15 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { position: 'right' } }
+                    plugins: { legend: { position: 'right' } },
+                    onHover: (e, elements) => {
+                        if (elements.length > 0) {
+                            const index = elements[0].index;
+                            const category = Object.keys(focusMap)[index];
+                            const items = focusMap[category];
+                            showDetails(`${category} Benchmarks`, items);
+                        }
+                    }
                 }
             });
         });
