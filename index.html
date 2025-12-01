@@ -329,6 +329,123 @@
                         and <span class="inline-flex items-center gap-1 font-medium text-gray-900"><span class="text-lg">○</span> indicates no coverage.</span>
                     </p>
                 </div>
+
+
+            <!-- Diagram Comparison Table -->
+            <div class="mb-16 mt-16">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Diagram Benchmark Comparison
+                </h3>
+                <div class="overflow-hidden rounded-xl border border-gray-200 shadow-lg ring-1 ring-black ring-opacity-5">
+                    <table class="w-full text-sm text-gray-600">
+                        <thead class="bg-gray-50 text-xs uppercase font-bold text-gray-500 tracking-wider">
+                            <tr>
+                                <th class="px-6 py-5 text-left bg-gray-100 border-b border-gray-200">Feature</th>
+                                <th class="px-6 py-5 text-center text-blue-800 bg-blue-50 border-b-2 border-blue-500 relative">
+                                    <span class="absolute top-0 left-0 w-full h-1 bg-blue-500"></span>
+                                    DiagramT2I (Ours)
+                                    <span class="block text-[10px] font-normal text-blue-600 normal-case mt-1">Proposed Benchmark</span>
+                                </th>
+                                <th class="px-6 py-5 text-center border-b border-gray-200">DiagrammerGPT</th>
+                                <th class="px-6 py-5 text-center border-b border-gray-200">DiagramGenBenchmark</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 bg-white">
+                            <!-- Main Focus -->
+                            <tr class="group hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-5 font-bold text-gray-900 bg-gray-50/50 group-hover:bg-gray-100/50 transition-colors">Main Focus</td>
+                                <td class="px-6 py-5 text-center font-medium text-blue-900 bg-blue-50/30 group-hover:bg-blue-50/50 transition-colors border-x border-blue-100">
+                                    Pure T2I Models
+                                </td>
+                                <td class="px-6 py-5 text-center">
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span class="font-medium text-gray-900">Two-stage Pipeline</span>
+                                        <span class="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">LLM Planning + Rendering</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5 text-center">
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span class="font-medium text-gray-900">Agentic Pipeline</span>
+                                        <span class="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">Multi-agent System</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Metrics -->
+                            <tr class="group hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-5 font-bold text-gray-900 bg-gray-50/50 group-hover:bg-gray-100/50 transition-colors">Metrics</td>
+                                <td class="px-6 py-5 text-center bg-blue-50/30 group-hover:bg-blue-50/50 transition-colors border-x border-blue-100">
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span class="font-bold text-blue-700">Upgraded VPEval</span>
+                                        <span class="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded-md">Enhanced labeling & part ID</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5 text-center">
+                                    <span class="font-medium text-gray-900">VPEval</span>
+                                </td>
+                                <td class="px-6 py-5 text-center">
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span class="font-medium text-gray-900">Pass@1, Similarity</span>
+                                        <span class="text-xs text-gray-500">Code-based evaluation</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Categories -->
+                            <tr class="group hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-5 font-bold text-gray-900 bg-gray-50/50 group-hover:bg-gray-100/50 transition-colors">Categories</td>
+                                <td class="px-6 py-5 text-center bg-blue-50/30 group-hover:bg-blue-50/50 transition-colors border-x border-blue-100">
+                                    <div class="flex flex-col items-center gap-2">
+                                        <span class="text-2xl font-bold text-blue-700">11</span>
+                                        <span class="text-xs font-medium text-blue-600 uppercase tracking-wide">Categories</span>
+                                        <span class="text-xs text-blue-500 bg-white border border-blue-200 px-2 py-1 rounded-full shadow-sm mb-2">8 + 3 Extra</span>
+                                        <div class="flex flex-wrap justify-center gap-1 max-w-[240px]">
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-blue-100 text-blue-700 rounded border border-blue-200">Model Arch</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-blue-100 text-blue-700 rounded border border-blue-200">Flow Chart</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-blue-100 text-blue-700 rounded border border-blue-200">Directed Graph</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-blue-100 text-blue-700 rounded border border-blue-200">Undirected Graph</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-blue-100 text-blue-700 rounded border border-blue-200">Line Chart</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-blue-100 text-blue-700 rounded border border-blue-200">Bar Chart</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-blue-100 text-blue-700 rounded border border-blue-200">Mindmap</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-blue-100 text-blue-700 rounded border border-blue-200">Table</span>
+                                            <!-- Extra 3 -->
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-amber-100 text-amber-700 rounded border border-amber-200 font-medium">Timeline</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-amber-100 text-amber-700 rounded border border-amber-200 font-medium">Object Parts</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-amber-100 text-amber-700 rounded border border-amber-200 font-medium">Pie Chart</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5 text-center">
+                                    <div class="flex flex-wrap justify-center gap-1 max-w-[200px] mx-auto">
+                                        <span class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-md border border-gray-200">Astrology</span>
+                                        <span class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-md border border-gray-200">Engineering</span>
+                                        <span class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-md border border-gray-200">Biology</span>
+                                        <span class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-md border border-gray-200">Geology</span>
+                                        <span class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-md border border-gray-200">Plants</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5 text-center">
+                                    <div class="flex flex-col items-center gap-2">
+                                        <span class="text-xl font-bold text-gray-700">8</span>
+                                        <span class="text-xs font-medium text-gray-500 uppercase tracking-wide">Categories</span>
+                                        <div class="flex flex-wrap justify-center gap-1 max-w-[200px] mt-1">
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-gray-100 text-gray-600 rounded border border-gray-200">Model Arch</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-gray-100 text-gray-600 rounded border border-gray-200">Flow Chart</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-gray-100 text-gray-600 rounded border border-gray-200">Directed Graph</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-gray-100 text-gray-600 rounded border border-gray-200">Undirected Graph</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-gray-100 text-gray-600 rounded border border-gray-200">Line Chart</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-gray-100 text-gray-600 rounded border border-gray-200">Bar Chart</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-gray-100 text-gray-600 rounded border border-gray-200">Mindmap</span>
+                                            <span class="px-1.5 py-0.5 text-[10px] bg-gray-100 text-gray-600 rounded border border-gray-200">Table</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             </div>
         </section>
 
