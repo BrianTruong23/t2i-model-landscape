@@ -41,6 +41,11 @@ benchmarks = [
     {"id": 33, "link": "https://arxiv.org/abs/2505.23493"},
     {"id": 34, "link": "https://arxiv.org/abs/2506.07977"},
     {"id": 35, "link": "https://arxiv.org/abs/2509.03516"},
+    {"id": 37, "link": "https://arxiv.org/abs/2510.25761"}, # DiagramEval
+    # {"id": 38, "link": "https://spaces-cdn.owlstown.com/blobs/dr1fngasdlei6n26qg8paayz11g5"}, # MathemaTikZ (PDF)
+    {"id": 39, "link": "https://arxiv.org/abs/2310.12128"}, # DiagrammerGPT
+    {"id": 40, "link": "https://arxiv.org/abs/2411.11916"}, # From Words to Visual
+    {"id": 41, "link": "https://arxiv.org/abs/1603.07396"}, # AI2D
 ]
 
 os.makedirs("images", exist_ok=True)
