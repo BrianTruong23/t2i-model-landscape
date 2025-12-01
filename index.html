@@ -135,6 +135,11 @@
                 <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 bg-white text-gray-600 border border-gray-200 hover:bg-gray-50" data-filter="category" data-value="both">Both</button>
             </div>
 
+            <!-- Result Count -->
+            <div class="text-center mb-6">
+                <span id="result-count" class="text-sm font-medium text-gray-500">Showing all results</span>
+            </div>
+
             <!-- Grid -->
             <div id="benchmark-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Cards injected by JS -->
@@ -680,31 +685,31 @@
             { 
                 id: 37, year: 2025, name: "DiagramEval", target: "Diagram Generation", type: "Auto", axes: "Node Alignment, Path Alignment", category: "Diagram", metrics: ["Graph-based"],
                 desc: "Evaluating LLM-Generated Diagrams via Graphs.",
-                detailedDesc: "DiagramEval treats diagrams as graphs, evaluating node and path alignment to assess the quality of LLM-generated diagrams (SVG). It addresses the lack of discriminative metrics for diagram generation.",
+                detailedDesc: "DiagramEval introduces a novel graph-based metric for evaluating LLM-generated SVG diagrams. Unlike pixel-based metrics, it treats diagrams as graphs, assessing 'Node Alignment' (text/shape correctness) and 'Path Alignment' (arrow/relationship correctness). This approach provides fine-grained, discriminative feedback on structural accuracy, addressing the limitations of standard VQA or CLIP-based metrics for schematic content.",
                 link: "https://aclanthology.org/2025.emnlp-main.640.pdf" 
             },
             { 
                 id: 38, year: 2025, name: "MathemaTikZ", target: "Math Diagrams", type: "Auto", axes: "Spatial, Geometric, Pedagogical", category: "Diagram", metrics: ["VQA", "Code Eval"],
                 desc: "Benchmark for K-12 Mathematical Diagram Generation.",
-                detailedDesc: "MathemaTikZ contains 3,793 mathematical diagrams paired with descriptions and TikZ code. It evaluates models on generating pedagogically accurate diagrams, highlighting challenges in spatial reasoning and geometric constraints.",
+                detailedDesc: "MathemaTikZ is a specialized benchmark for K-12 mathematical diagram generation, comprising 3,793 pairs of natural language descriptions and TikZ code. It rigorously evaluates models on their ability to handle spatial reasoning, geometric constraints, and pedagogical clarity. The study reveals significant gaps in current models' ability to generate accurate, curriculum-aligned visualizations, particularly in maintaining strict geometric relationships.",
                 link: "https://spaces-cdn.owlstown.com/blobs/dr1fngasdlei6n26qg8paayz11g5" 
             },
             { 
                 id: 39, year: 2023, name: "DiagrammerGPT", target: "Open-Domain Diagrams", type: "Auto", axes: "Layout, Text Rendering", category: "Diagram", metrics: ["Layout", "Text"],
                 desc: "Generating Open-Domain, Open-Platform Diagrams via LLM Planning.",
-                detailedDesc: "DiagrammerGPT is a two-stage framework using LLMs for layout planning and a specialized generator for rendering. It introduces AI2D-Caption for benchmarking dense diagram generation.",
+                detailedDesc: "DiagrammerGPT proposes a two-stage 'Planner-Auditor' framework to tackle dense diagram generation. First, an LLM plans the layout and entities; second, a specialized module renders the final image. The paper also introduces 'AI2D-Caption', a densely annotated dataset derived from AI2D, to benchmark the generation of complex, information-rich diagrams that require precise spatial organization and text rendering.",
                 link: "https://arxiv.org/abs/2310.12128" 
             },
             { 
                 id: 40, year: 2025, name: "From Words to Visual", target: "Structured Visuals", type: "Auto", axes: "Structure, Editing", category: "Diagram", metrics: ["Structure"],
                 desc: "A Benchmark and Framework for Text-to-Diagram Generation and Editing.",
-                detailedDesc: "This CVPR 2025 paper introduces a benchmark for generating and editing structured visuals (diagrams) from text, focusing on the structural integrity and editability of the generated outputs.",
+                detailedDesc: "This CVPR 2025 paper presents a comprehensive framework for both generating and *editing* structured visuals. It moves beyond static image generation to evaluate how well models can modify existing diagrams based on textual instructions while preserving structural integrity. The benchmark covers a wide range of structured visual types, testing the model's understanding of underlying logical and spatial relationships.",
                 link: "https://openaccess.thecvf.com/content/CVPR2025/papers/Wei_From_Words_to_Structured_Visuals_A_Benchmark_and_Framework_for_CVPR_2025_paper.pdf" 
             },
             { 
                 id: 41, year: 2016, name: "AI2D", target: "Diagram Understanding", type: "Human + Auto", axes: "Structure, Semantics", category: "Diagram", metrics: ["VQA", "Parsing"],
                 desc: "A Diagram Is Worth A Dozen Images.",
-                detailedDesc: "AI2D is a pioneering dataset for diagram interpretation and reasoning. It contains over 5,000 diagrams with exhaustive annotations of constituents and relationships, enabling research into diagram parse graphs and question answering.",
+                detailedDesc: "AI2D (A Diagram Is Worth A Dozen Images) is the foundational dataset for diagram understanding. It features over 5,000 diagrams with exhaustive annotations of their constituent parts (blobs, text, arrows) and their relationships. The paper introduces 'Diagram Parse Graphs' (DPG) to model these structures and provides a massive question-answering benchmark (15k+ QA pairs) to test a model's ability to reason about the diagram's semantic content.",
                 link: "https://arxiv.org/abs/1603.07396" 
             }
         ];
@@ -817,6 +822,10 @@
 
                 return matchesSearch && matchesYear && matchesType && matchesCategory && matchesMetrics;
             });
+
+            // Update Result Count
+            const countEl = document.getElementById('result-count');
+            countEl.textContent = `Showing ${filtered.length} result${filtered.length !== 1 ? 's' : ''}`;
 
             // Clear grid
             grid.innerHTML = '';
